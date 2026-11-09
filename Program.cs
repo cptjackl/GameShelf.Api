@@ -1,4 +1,5 @@
 using GameShelf.Api.Models;
+using GameShelf.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddSingleton<IGameService, GameService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,44 +28,30 @@ var games = new List<Game>
     new(3,"assassins creed","switch",2021),
 };
 
-app.MapGet("/games", ()=>games);
+app.MapGet("/games", (IGameService service)=> service.GetAll());
 
-app.MapGet("/games/{id}", (int id) =>
+app.MapGet("/games/{id}", (int id, IGameService service) =>
 {
-    var game = games.FirstOrDefault(g=>g.Id==id);
+    var game = service.GetById(id);
     return game is null ? Results.NotFound() : Results.Ok(game);
 }
 );
 
-app.MapPost("/games", (CreateGameRequest request) =>
+app.MapPost("/games", (CreateGameRequest request, IGameService service) =>
 {
-    var nextId = games.Count == 0 ? 1 : games.Max(g=> g.Id) +1;
-    var game = new Game(nextId, request.Title, request.Platform, request.ReleaseYear);
-    games.Add(game);
+    var game = service.Create(request);
     return Results.Created($"/games/{game.Id}", game);
 });
 
-app.MapPut("/games/{id}", (int id, CreateGameRequest request) =>
+app.MapPut("/games/{id}", (int id, CreateGameRequest request, IGameService service) =>
 {
-   var index = games.FindIndex(g => g.Id == id);
-   if (index == -1) return Results.NotFound();
-
-   games[index] = new Game(id, request.Title, request.Platform, request.ReleaseYear);
-   return Results.Ok(games[index]); 
+   var game = service.Update(id,request);
+   return game is null ? Results.NotFound() : Results.Ok(game); 
 });
 
-app.MapDelete("/games/{id}", (int id)=>
+app.MapDelete("/games/{id}", (int id, IGameService service)=>
 {
-    var game = games.FirstOrDefault(g=>g.Id==id);
-    
-    if (game is null) {
-        return Results.NotFound();
-    }
-    else
-    {
-        games.Remove(game);
-        return Results.NoContent();;   
-    }
+    return service.Delete(id);
 });
 app.Run();
 

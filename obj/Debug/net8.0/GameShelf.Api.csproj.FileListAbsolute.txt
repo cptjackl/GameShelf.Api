@@ -34,3 +34,4 @@
 /home/cptjackl/Projects/GameShelf.Api/obj/Debug/net8.0/GameShelf.Api.pdb
 /home/cptjackl/Projects/GameShelf.Api/obj/Debug/net8.0/GameShelf.Api.genruntimeconfig.cache
 /home/cptjackl/Projects/GameShelf.Api/obj/Debug/net8.0/ref/GameShelf.Api.dll
+/home/cptjackl/Projects/GameShelf.Api/obj/Debug/net8.0/GameShelf.Api.sourcelink.json
