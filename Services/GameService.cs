@@ -12,10 +12,10 @@ public class GameService : IGameService
 
     public IReadOnlyList<Game> GetAll() => _games;
 
-    public Game GetById(int id)
+    public Game? GetById(int id)
     {
         var game = _games.FirstOrDefault(g=>g.Id==id);
-        return game;   
+        return game; 
     }
     
     public Game Create(CreateGameRequest request)

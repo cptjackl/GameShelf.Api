@@ -21,13 +21,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var games = new List<Game>
-{
-    new(1,"hades","pc",2020),
-    new(2,"hades","playstation",2020),
-    new(3,"assassins creed","switch",2021),
-};
-
 app.MapGet("/games", (IGameService service)=> service.GetAll());
 
 app.MapGet("/games/{id}", (int id, IGameService service) =>
@@ -51,7 +44,7 @@ app.MapPut("/games/{id}", (int id, CreateGameRequest request, IGameService servi
 
 app.MapDelete("/games/{id}", (int id, IGameService service)=>
 {
-    return service.Delete(id);
+    return service.Delete(id) ? Results.NoContent() : Results.NoContent();
 });
 app.Run();
 
