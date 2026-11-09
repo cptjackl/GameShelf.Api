@@ -1,0 +1,25 @@
+@host = http://localhost:5262
+
+
+### Get all Games
+GET {{host}}/games/
+Accept: application/json
+
+### Get game by Id
+GET {{host}}/games/1
+Accept: application/json 
+
+### Create a game
+POST {{host}}/games
+Content-Type: application/json
+
+{"title": "celeste", "platform":"pc","releaseYear": 2018}
+
+### Update a game by id
+PUT {{host}}/games/1
+Content-Type: application/json
+
+{"title": "Hades II", "platform":"pc","releaseYear": 2024}
+
+### Delete a game
+DELETE {{host}}/games/5
