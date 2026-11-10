@@ -13,7 +13,7 @@ Accept: application/json
 POST {{host}}/games
 Content-Type: application/json
 
-{"title": "celeste", "platform":"pc","releaseYear": 2018}
+{"title": "", "platform":"pc","releaseYear": 2026}
 
 ### Update a game by id
 PUT {{host}}/games/1
