@@ -1,5 +1,6 @@
 using GameShelf.Api.Models;
 using GameShelf.Api.Services;
+using GameShelf.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,30 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/games", (IGameService service)=> service.GetAll());
+app.MapGameEndpoints();
 
-app.MapGet("/games/{id}", (int id, IGameService service) =>
-{
-    var game = service.GetById(id);
-    return game is null ? Results.NotFound() : Results.Ok(game);
-}
-);
-
-app.MapPost("/games", (CreateGameRequest request, IGameService service) =>
-{
-    var game = service.Create(request);
-    return Results.Created($"/games/{game.Id}", game);
-});
-
-app.MapPut("/games/{id}", (int id, CreateGameRequest request, IGameService service) =>
-{
-   var game = service.Update(id,request);
-   return game is null ? Results.NotFound() : Results.Ok(game); 
-});
-
-app.MapDelete("/games/{id}", (int id, IGameService service)=>
-{
-    return service.Delete(id) ? Results.NoContent() : Results.NoContent();
-});
 app.Run();
 
