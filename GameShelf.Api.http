@@ -23,3 +23,44 @@ Content-Type: application/json
 
 ### Delete a game
 DELETE {{host}}/games/5
+
+
+### Add Hades
+POST {{host}}/games
+Content-Type: application/json
+
+{
+  "title": "Hades",
+  "platform": "PC",
+  "releaseYear": 2020
+}
+
+### Add Celeste
+POST {{host}}/games
+Content-Type: application/json
+
+{
+  "title": "Celeste",
+  "platform": "Nintendo Switch",
+  "releaseYear": 2018
+}
+
+### Add Stardew Valley
+POST {{host}}/games
+Content-Type: application/json
+
+{
+  "title": "Stardew Valley",
+  "platform": "PC",
+  "releaseYear": 2016
+}
+
+### Add Portal 2
+POST {{host}}/games
+Content-Type: application/json
+
+{
+  "title": "Portal 2",
+  "platform": "PC",
+  "releaseYear": 2011
+}

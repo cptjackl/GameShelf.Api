@@ -9,18 +9,18 @@ public static class GameEndpoints
     {
         var games = app.MapGroup("/games");
 
-        games.MapGet("/", (IGameService service) =>
+        games.MapGet("/", async (IGameService service) =>
         {
-            return service.GetAll();
+            return await service.GetAllAsync();
         });
 
-        games.MapGet("/{id}", (int id, IGameService service) =>
+        games.MapGet("/{id}", async (int id, IGameService service) =>
         {
-            var game = service.GetById(id);
+            var game = await service.GetByIdAsync(id);
             return game is null ? Results.NotFound() : Results.Ok(game);
         });
 
-        games.MapPost("/", (IGameService service, CreateGameRequest request) =>
+        games.MapPost("/", async (IGameService service, CreateGameRequest request) =>
         {
             var error = ValidateRequest(request);
 
@@ -29,11 +29,11 @@ public static class GameEndpoints
                 return Results.BadRequest(error);
             }
 
-            var game = service.Create(request);
+            var game = await service.CreateAsync(request);
             return Results.Created($"/games/{game.Id}", game);
         });
 
-        games.MapPut("/{id}", (int id, CreateGameRequest request, IGameService service) =>
+        games.MapPut("/{id}", async (int id, CreateGameRequest request, IGameService service) =>
         {
             var error = ValidateRequest(request);
             if (error is not null)
@@ -41,13 +41,13 @@ public static class GameEndpoints
                 return Results.BadRequest(error);
             }
 
-            var game = service.Update(id, request);
+            var game = await service.UpdateAsync(id, request);
             return game is null ? Results.NotFound() : Results.Ok(game);
         });
 
-        games.MapDelete("/{id}", (int id, IGameService service) =>
+        games.MapDelete("/{id}", async (int id, IGameService service) =>
         {
-            return service.Delete(id) ? Results.NoContent() : Results.NotFound();
+            return await service.DeleteAsync(id) ? Results.NoContent() : Results.NotFound();
         });
     }
 

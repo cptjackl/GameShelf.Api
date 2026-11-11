@@ -4,9 +4,9 @@ namespace GameShelf.Api.Services;
 
 public interface IGameService
 {
-    IReadOnlyList<Game> GetAll();
-    Game? GetById(int id);
-    Game Create(CreateGameRequest request);
-    Game? Update(int id, CreateGameRequest request);
-    bool Delete(int id);
+    Task<IReadOnlyList<Game>> GetAllAsync();
+    Task<Game?> GetByIdAsync(int id);
+    Task<Game> CreateAsync(CreateGameRequest request);
+    Task<Game?> UpdateAsync(int id, CreateGameRequest request);
+    Task<bool> DeleteAsync(int id);
 }
